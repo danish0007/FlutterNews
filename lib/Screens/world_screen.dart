@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:exam1/components/navigation_bar.dart';
 import 'package:exam1/components/launch_in_app.dart';
+import 'package:exam1/components/app_bar_title.dart';
 
 const String Apikey = 'iPTJBfr8mJhrodrz5dx5QAIUKY31STF8';
 
@@ -42,22 +42,9 @@ class _WorldScreenState extends State<WorldScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavigationBar(),
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'World',
-                style: GoogleFonts.grenze(fontSize: 35, color: Colors.white),
-              ),
-              Text(
-                ' News',
-                style: GoogleFonts.grenze(fontSize: 35, color: Colors.blue),
-              ),
-            ],
-          )),
+        title: AppBarTitle("World"),
+      ),
       body: ListView.builder(
           itemCount: article != null ? article.length : 0,
           itemBuilder: (BuildContext context, int index) {
@@ -67,74 +54,80 @@ class _WorldScreenState extends State<WorldScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Card(
-                      child: RaisedButton(
-                        color: Colors.black45,
-                        elevation: 16,
-                        onPressed: () {
+                      elevation: 16,
+                      child: InkWell(
+                        onTap: () {
                           setState(() {
                             lia.launchInApp(article[index]['url']);
                           });
                         },
                         child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Column(
-                            children: [
-                              Stack(
-                                children: [
-                                  Image(
-                                    image: NetworkImage(
-                                        article[index]['multimedia'][0]['url']),
-                                    height: 300,
-                                    width: double.maxFinite,
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      SizedBox(height: 200),
-                                      Text(
-                                        article[index]['title'],
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.notoSerif(
-                                            fontSize: 22,
-                                            backgroundColor: Colors.black45,
-                                            color: Colors.white),
+                          color: Theme.of(context).primaryColor,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                      height: 300,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(article[index]
+                                            ['multimedia'][0]['url']),
+                                      )),
+                                      child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Text(
+                                          article[index]['title'],
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.notoSerif(
+                                              fontSize: 22,
+                                              color: Colors.white,
+                                              backgroundColor: Colors.black87),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                article[index]['abstract'],
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 20, fontStyle: FontStyle.italic),
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.favorite, color: colour),
-                                    onPressed: () {
-                                      setState(() {
-                                        colour = colour == Colors.white
-                                            ? Colors.red
-                                            : Colors.white;
-                                      });
-                                    },
-                                  ),
-                                  Text(
-                                    ('${article[index]['published_date']}')
-                                        .substring(0, 10),
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  article[index]['abstract'],
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 20,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.favorite, color: colour),
+                                      onPressed: () {
+                                        setState(() {
+                                          colour = colour == Colors.white
+                                              ? Colors.red
+                                              : Colors.white;
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      ('${article[index]['published_date']}')
+                                          .substring(0, 10),
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
