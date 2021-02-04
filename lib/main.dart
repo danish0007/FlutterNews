@@ -2,10 +2,10 @@ import 'package:exam1/Screens/science_screen.dart';
 import 'package:exam1/Screens/search_screen.dart';
 import 'package:exam1/Screens/trending_screen.dart';
 import 'package:exam1/Screens/world_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:exam1/Screens/home_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:exam1/components/drawer_tile.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int selectedPage = 0;
   PageController _pageController = PageController(initialPage: 0);
-  bool themeContent = true;
+  bool themeContent = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,15 @@ class _MyAppState extends State<MyApp> {
       theme: themeContent
           ? ThemeData.dark().copyWith(
               accentColor: Colors.red,
-              primaryTextTheme:
-                  TextTheme(headline1: TextStyle(color: Colors.white)))
+              primaryTextTheme: TextTheme(
+                  headline1: TextStyle(color: Colors.white),
+                  headline2: TextStyle(color: Colors.white)))
           : ThemeData(
               primaryColor: Colors.white,
               accentColor: Colors.blue,
-              primaryTextTheme:
-                  TextTheme(headline1: TextStyle(color: Colors.black))),
+              primaryTextTheme: TextTheme(
+                  headline1: TextStyle(color: Colors.black),
+                  headline2: TextStyle(color: Colors.black87))),
       home: Scaffold(
         drawer: Drawer(
           child: Column(
@@ -78,6 +80,10 @@ class _MyAppState extends State<MyApp> {
                   Icons.home_outlined,
                   size: 30,
                 ),
+                page: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                },
               ),
               DrawerTile(
                 name: "Trending New",
@@ -85,6 +91,10 @@ class _MyAppState extends State<MyApp> {
                   Icons.trending_up,
                   size: 30,
                 ),
+                page: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TrendingScreen()));
+                },
               ),
               DrawerTile(
                 name: "Search News",
@@ -92,10 +102,18 @@ class _MyAppState extends State<MyApp> {
                   Icons.search,
                   size: 30,
                 ),
+                page: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                },
               ),
               DrawerTile(
                 name: "Science & Technology News",
                 icon: Icon(MdiIcons.flaskOutline, size: 30),
+                page: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ScienceScreen()));
+                },
               ),
               DrawerTile(
                 name: "World News",
@@ -103,10 +121,12 @@ class _MyAppState extends State<MyApp> {
                   Icons.language,
                   size: 30,
                 ),
+                page: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => WorldScreen()));
+                },
               ),
-              SizedBox(
-                height: 100,
-              ),
+              SizedBox(height: 100),
               ListTile(
                 title: Text(
                   'Enable Dark Theme',
@@ -137,7 +157,7 @@ class _MyAppState extends State<MyApp> {
           currentIndex: selectedPage,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
             BottomNavigationBarItem(
@@ -182,31 +202,6 @@ class _MyAppState extends State<MyApp> {
             WorldScreen(),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class DrawerTile extends StatelessWidget {
-  final Icon icon;
-  final String name;
-
-  DrawerTile({this.icon, this.name});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: ListTile(
-        leading: icon,
-        title: Text(
-          "$name",
-          style: TextStyle(fontSize: 20),
-        ),
-        onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => HomeScreen()));
-        },
       ),
     );
   }
