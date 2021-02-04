@@ -19,6 +19,8 @@ dependencies:
   url_launcher:
   bottom_navy_bar:
   material_design_icons_flutter:
+  flutter_snake_navigationbar: ^0.4.4
+
 
 dev_dependencies:
   flutter_test:
